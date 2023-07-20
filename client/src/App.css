@@ -1,0 +1,17 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Poppins', sans-serif;
+}
+
+body {
+    background: linear-gradient(45deg, rgb(255, 234, 234), rgb(235, 240, 255), #f3ffdc);
+    background-repeat: no-repeat;
+    min-height: 100vh;
+}
+
+.App {
+    background: inherit;
+}
