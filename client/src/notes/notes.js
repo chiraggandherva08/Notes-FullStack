@@ -13,6 +13,10 @@ const ContentBar = ({ title, content }) => {
   </div>
 }
 
+const newTab = (title) => {
+  console.log(title[0]);
+}
+
 const fetchData = async (setNotes) => {
   try {
     let response = await fetch("http://localhost:8000/");
@@ -28,8 +32,7 @@ const fetchData = async (setNotes) => {
       }
     })
 
-    setNotes(notes);
-
+    await setNotes(notes);
   } catch (error) {
     return { error: "Encountered With ERROR!" };
   }
@@ -62,20 +65,54 @@ const Notes = () => {
             <div id="created-created">Your Created Notes</div>
             <ul id="notes-list">{
               notes.map((note, index) => {
-                return (
-                  <li 
-                  onClick={() => {setTitle(note[0]);
-                    setContent(note[1]);
-                    toggleContentBar();
-                  }} 
-                  
-                  className="notes-prev" 
-                  key={index}>
-                    {note[0]}
-                    <hr className="notes-prev-hr" />
-                    {note[1]}
-                  </li>
-                )
+                if (note[1].length < 300) {
+                  return (
+                    <li
+                      onClick={() => {
+                        setTitle(note[0]);
+                        setContent(note[1]);
+                        toggleContentBar();
+                      }}
+
+                      className="notes-prev"
+                      key={index}>
+
+                      {note[0]}
+                      <hr className="notes-prev-hr" />
+
+                      {note[1]}
+
+                      <br />
+
+                      <a href={`http://localhost:3000/note?title=${note[0]}`}>
+                        <img className="open-new-tab-btn" src="assets/open-new-tab.svg" alt="open in new tab" onClick={() => { newTab() }} />
+                      </a>
+                    </li>
+                  )
+                }
+                else {
+                  return (
+                    <li
+                      onClick={() => {
+                        setTitle(note[0]);
+                        setContent(note[1]);
+                        toggleContentBar();
+                      }}
+
+                      className="notes-prev resizable"
+                      key={index}>
+                      {note[0]}
+
+                      <hr className="notes-prev-hr" />
+                      {note[1]}
+                      <br />
+
+                      <a href={`http://localhost:3000/note?title=${note[0]}`}>
+                        <img className="open-new-tab-btn" src="assets/open-new-tab.svg" alt="open in new tab" onClick={() => { newTab() }} />
+                      </a>
+                    </li>
+                  )
+                }
               })
             }
             </ul>

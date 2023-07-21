@@ -6,17 +6,16 @@ const cors = require('cors');
 
 app.use(cors());
 
-mongoose.connect('mongodb://127.0.0.1:27017/notes', { 
-        useNewUrlParser: true,
-        useUnifiedTopology: true 
-    }
-)
-.then(() => {
-    console.log('Connected to db...')
+mongoose.connect('mongodb://127.0.0.1:27017/notes', {
+    useNewUrlParser: true,
+    useUnifiedTopology: true
 })
-.catch((err) => {
-    console.log(err)
-})
+    .then(() => {
+        console.log('Connected to db...')
+    })
+    .catch((err) => {
+        console.log(err)
+    })
 
 const notesSchema = mongoose.Schema({
     title: { type: String, required: true, unique: false },
@@ -27,8 +26,13 @@ const notesModel = mongoose.model("chirag", notesSchema);
 
 app.get("/", async (req, res) => {
     const data = await notesModel.find({});
-    console.log(data);
-    res.json(data);
+    return res.json(data);
+});
+
+app.get(`/note`, async (req, res) => {
+    const query = req.query;
+    const returnQuery = await notesModel.find(query);
+    return res.json(returnQuery);
 });
 
 app.listen(PORT, () => {
